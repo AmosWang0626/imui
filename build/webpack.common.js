@@ -6,10 +6,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const config = {
   entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, '../dist'),
     filename: '[name].[contenthash].js'
   },
-  stats: 'errors-only',
+  stats: 'minimal',
   module: {
     rules: [
       {

@@ -7,9 +7,8 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "dev": "webpack-dev-server --open",
-    "build": "webpack -p --mode production",
-    "build:dev": "webpack -d --mode development"
+    "dev": "webpack-dev-server --config build/webpack.dev.js",
+    "build": "webpack --config build/webpack.prod.js"
   },
   "dependencies": {
     "vue": "^2.6.10"
@@ -27,6 +26,7 @@
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.35.3",
     "webpack-cli": "^3.3.5",
-    "webpack-dev-server": "^3.7.2"
+    "webpack-dev-server": "^3.7.2",
+    "webpack-merge": "^4.2.1"
   }
 }
