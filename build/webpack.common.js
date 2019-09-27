@@ -2,6 +2,12 @@ const path = require('path')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const utils = require('./utils')
+
+// root dir + param dir
+function resolve(dir) {
+  return path.join(__dirname, '..', dir)
+}
+
 const config = {
   entry: './src/index.js',
   output: {
@@ -10,8 +16,7 @@ const config = {
   },
   stats: 'minimal',
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.vue$/,
         loader: 'vue-loader'
       },
@@ -76,7 +81,12 @@ const config = {
     ]
   },
   resolve: {
-    extensions: ['.js', '.vue']
+    extensions: ['.js', '.vue', '.json'],
+    alias: {
+      vue$: 'vue/dist/vue.esm.js',
+      '@': resolve('src')
+    }
+
   },
   plugins: [
     new VueLoaderPlugin(),

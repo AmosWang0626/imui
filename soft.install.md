@@ -12,3 +12,35 @@ cnpm i element-ui -S
 cnpm install url-loader --save-dev
 cnpm install file-loader --save-dev
 ```
+
+## install websocket
+
+```sh
+cnpm install --save webstomp-client
+```
+
+### websocket impl by [webstomp-client](https://github.com/JSteunou/webstomp-client)
+
+#### connect
+
+- connect(headers, connectCallback)
+- connect(headers, connectCallback, errorCallback)
+- connect(login, passcode, connectCallback)
+- connect(login, passcode, connectCallback, errorCallback)
+- connect(login, passcode, connectCallback, errorCallback, host)
+
+#### disconnect
+
+- disconnect(disconnectCallback, headers={})
+
+#### send
+
+- send(destination, body='', headers={})
+
+#### subscribe
+
+- subscribe(destination, callback, headers={})
+
+#### unsubscribe
+
+- unsubscribe(id, header={})
