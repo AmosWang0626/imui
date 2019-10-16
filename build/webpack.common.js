@@ -1,7 +1,12 @@
 const path = require('path')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+
 const utils = require('./utils')
+const clearPath = ['../dist']
 const config = {
   entry: './src/index.js',
   output: {
@@ -84,7 +89,11 @@ const config = {
       template: require('html-webpack-template'),
       inject: false,
       appMountId: 'app'
-    })
+    }),
+    new BundleAnalyzerPlugin({
+      defaultSizes: 'parsed'
+    }),
+    new CleanWebpackPlugin()
   ],
   optimization: {
     runtimeChunk: 'single',
