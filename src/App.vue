@@ -1,22 +1,5 @@
 <template>
-    <div>{{name}}</div>
+  <div id="app">
+    <router-view />
+  </div>
 </template>
-
-<script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
-    data: function() {
-        return {
-            name: 'Hello World!'
-        }
-    }
-})
-</script>
-
-<style>
-body {
-    color: white;
-    background-color: black;
-}
-</style>

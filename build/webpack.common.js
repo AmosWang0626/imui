@@ -6,7 +6,12 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const utils = require('./utils')
-const clearPath = ['../dist']
+
+// root dir + param dir
+function resolve(dir) {
+  return path.join(__dirname, '..', dir)
+}
+
 const config = {
   entry: './src/index.js',
   output: {
@@ -81,7 +86,11 @@ const config = {
     ]
   },
   resolve: {
-    extensions: ['.js', '.vue']
+    extensions: ['.js', '.vue', '.json'],
+    alias: {
+      vue$: 'vue/dist/vue.esm.js',
+      '@': resolve('src')
+    }
   },
   plugins: [
     new VueLoaderPlugin(),

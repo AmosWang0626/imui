@@ -22,3 +22,34 @@ cnpm install --save-dev webpack-bundle-analyzer
 build时自动清空dist目录
 cnpm install --save-dev clean-webpack-plugin
 ```
+## install websocket
+
+```sh
+cnpm install --save webstomp-client
+```
+
+### websocket impl by [webstomp-client](https://github.com/JSteunou/webstomp-client)
+
+#### connect
+
+- connect(headers, connectCallback)
+- connect(headers, connectCallback, errorCallback)
+- connect(login, passcode, connectCallback)
+- connect(login, passcode, connectCallback, errorCallback)
+- connect(login, passcode, connectCallback, errorCallback, host)
+
+#### disconnect
+
+- disconnect(disconnectCallback, headers={})
+
+#### send
+
+- send(destination, body='', headers={})
+
+#### subscribe
+
+- subscribe(destination, callback, headers={})
+
+#### unsubscribe
+
+- unsubscribe(id, header={})
