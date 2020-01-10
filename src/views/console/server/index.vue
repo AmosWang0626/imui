@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { startServer } from '@/utils/api'
+import { startServer, getServerLogs } from '@/utils/api'
 import SockJS from 'sockjs-client'
 import Stomp from 'webstomp-client'
 export default {
@@ -32,12 +32,20 @@ export default {
   },
   created() {
     this.connect()
+    this.getServerLogs()
   },
   methods: {
     startServer() {
       this.send()
       startServer().then(res => {
         this.$message.info(res.data)
+      })
+    },
+    getServerLogs() {
+      getServerLogs().then(res => {
+        res.data.forEach(element => {
+          this.logsData.push(element)
+        })
       })
     },
     send() {
