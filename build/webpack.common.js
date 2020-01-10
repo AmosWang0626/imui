@@ -100,7 +100,9 @@ const config = {
       appMountId: 'app'
     }),
     new BundleAnalyzerPlugin({
-      defaultSizes: 'parsed'
+      defaultSizes: 'parsed',
+      analyzerMode: 'disabled',
+      generateStatsFile: false
     }),
     new CleanWebpackPlugin()
   ],
