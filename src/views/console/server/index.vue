@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { startServer, getServerLogs } from '@/utils/api'
+import { startServer, getServerLogs } from '@/api/server'
 import SockJS from 'sockjs-client'
 import Stomp from 'webstomp-client'
 export default {

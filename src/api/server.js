@@ -4,14 +4,14 @@ import {
 
 export function getServerLogs() {
   return request({
-    methods: 'get',
+    method: 'get',
     url: '/server/logs'
   })
 }
 
 export function startServer() {
   return request({
-    methods: 'get',
+    method: 'get',
     url: '/server/start'
   })
 }

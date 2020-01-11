@@ -1,6 +1,6 @@
 <template>
   <div class="breadcrumb-container">
-    <el-breadcrumb class="app-breadcrumb" separator="/">
+    <el-breadcrumb class="app-breadcrumb" separator=">">
       <transition-group name="breadcrumb">
         <el-breadcrumb-item v-for="(item,index) in levelList" :key="item.path">
           <span
@@ -67,8 +67,9 @@ export default {
   line-height: 50px;
   margin-left: 8px;
 }
-.no-redirect {
-  color: #97a8be;
-  cursor: text;
+</style>
+<style>
+.el-breadcrumb__separator {
+  color: black !important;
 }
 </style>

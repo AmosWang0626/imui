@@ -12,6 +12,12 @@
         <i class="el-icon-s-comment"></i>
         <span>聊天相关</span>
       </template>
+      <el-menu-item index="/login">
+        <template slot="title">
+          <i class="el-icon-user"></i>
+          <span>登录</span>
+        </template>
+      </el-menu-item>
       <el-menu-item index="/alone">
         <template slot="title">
           <i class="el-icon-chat-round"></i>
@@ -31,24 +37,6 @@
         </template>
       </el-menu-item>
     </el-submenu>
-    <el-submenu index="user" disabled>
-      <template slot="title">
-        <i class="el-icon-s-promotion"></i>
-        <span slot="title">登录相关</span>
-      </template>
-      <el-menu-item index="2-1">
-        <template slot="title">
-          <i class="el-icon-user"></i>
-          <span>登录</span>
-        </template>
-      </el-menu-item>
-      <el-menu-item index="2-2">
-        <template slot="title">
-          <i class="el-icon-user-solid"></i>
-          <span>退出</span>
-        </template>
-      </el-menu-item>
-    </el-submenu>
     <el-submenu index="system">
       <template slot="title">
         <i class="el-icon-setting"></i>
@@ -61,7 +49,7 @@
         </template>
       </el-menu-item>
     </el-submenu>
-    <el-menu-item index="/profile">
+    <el-menu-item index="/profile" disabled>
       <template slot="title">
         <i class="el-icon-loading"></i>
         <span slot="title">敬请期待</span>

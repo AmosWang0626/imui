@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '@/views/Home'
 import Profile from '@/views/profile/index'
 import Server from '@/views/console/server'
+import Login from '@/views/im/login'
 import Alone from '@/views/im/alone'
 import Group from '@/views/im/group'
 import Online from '@/views/im/online'
@@ -31,6 +32,14 @@ export default new Router({
         component: Profile,
         meta: {
           title: '敬请期待'
+        }
+      },
+      {
+        path: '/login',
+        name: 'Login',
+        component: Login,
+        meta: {
+          title: '登录'
         }
       },
       {
