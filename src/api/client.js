@@ -9,9 +9,18 @@ export function userLogin(data) {
     data
   })
 }
+
 export function onlineUsers() {
   return request({
     method: 'get',
     url: '/user/list',
+  })
+}
+
+export function chatAlone(data) {
+  return request({
+    method: 'post',
+    url: '/alone',
+    data
   })
 }
