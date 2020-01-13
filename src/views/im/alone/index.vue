@@ -19,8 +19,8 @@
             <div v-for="item in record" :key="item.id">
               <div class="chat-time">{{ item.time }}</div>
               <div
-                :class="item.sender === form.sender ? 'c-sender' : 'c-receiver'"
-              >{{ item.message }}</div>
+                :class="item.senderId === form.sender ? 'c-sender' : 'c-receiver'"
+              >{{ item.senderId }}: {{ item.message }}</div>
             </div>
           </el-scrollbar>
         </div>
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { chatAlone } from '@/api/client'
+import { chatAlone, chatRecord } from '@/api/client'
 
 export default {
   data() {
@@ -65,6 +65,9 @@ export default {
       record: []
     }
   },
+  created() {
+    this.chatRecord()
+  },
   methods: {
     onSubmit(baseRef) {
       const _this = this
@@ -77,14 +80,17 @@ export default {
             this.$message.error(res.data.msg)
             return
           }
-          let item = { ...this.form }
-          item.id = res.data.body
-          item.time = new Date().toLocaleString()
-          this.record.push(item)
-          // console.info(_this.$refs['scrollbar'].wrap)
-          // window.scrollTo(0, _this.$refs['scrollbar'].wrap.scrollHeight)
+          this.record.push(res.data.body)
         })
       })
+    },
+    chatRecord() {
+      if (this.form.sender && this.form.receiver) {
+        let data = { sender: this.form.sender, receiver: this.form.receiver }
+        chatRecord(data).then(res => {
+          this.record = res.data.body
+        })
+      }
     }
   }
 }

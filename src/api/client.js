@@ -24,3 +24,11 @@ export function chatAlone(data) {
     data
   })
 }
+
+export function chatRecord(data) {
+  return request({
+    method: 'post',
+    url: '/alone/list',
+    data
+  })
+}
