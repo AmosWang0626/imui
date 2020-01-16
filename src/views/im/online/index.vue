@@ -2,10 +2,9 @@
   <div>
     <el-table :data="tableData" highlight-current-row style="width: 100%">
       <el-table-column label="序号" type="index" width="80" align="center"></el-table-column>
-      <el-table-column label="token" prop="token" width="140" align="center"></el-table-column>
-      <el-table-column label="用户名" prop="username"></el-table-column>
-      <el-table-column label="状态" prop="status"></el-table-column>
-      <el-table-column label="登录时间" prop="createTime" width="160"></el-table-column>
+      <el-table-column label="token" prop="token" align="center"></el-table-column>
+      <el-table-column label="用户名" prop="username" align="center"></el-table-column>
+      <el-table-column label="登录时间" prop="createTime" align="center"></el-table-column>
     </el-table>
   </div>
 </template>
