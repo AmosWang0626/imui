@@ -4,8 +4,8 @@ import Home from '@/views/Home'
 import Profile from '@/views/profile/index'
 import Server from '@/views/console/server'
 import Login from '@/views/im/login'
-// import Alone from '@/views/im/alone'
-import Alone from '@/views/websocket/alone'
+import Alone from '@/views/im/alone'
+import WSAlone from '@/views/websocket/alone'
 import Group from '@/views/im/group'
 import Online from '@/views/im/online'
 
@@ -49,6 +49,14 @@ export default new Router({
         component: Alone,
         meta: {
           title: '单聊'
+        }
+      },
+      {
+        path: '/wsalone',
+        name: 'WSAlone',
+        component: WSAlone,
+        meta: {
+          title: 'WS单聊'
         }
       },
       {

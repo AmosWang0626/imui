@@ -9,7 +9,7 @@
       </el-form-item>
     </el-form>
 
-    <el-row>
+    <el-row class="base-chat">
       <el-card class="chat-card">
         <!-- header -->
         <div class="header" slot="header">{{ form.receiver }}</div>
@@ -34,6 +34,7 @@
                 autosize
                 placeholder="请输入内容"
                 v-model="form.message"
+                @keyup.enter.native="onSubmit('baseRef')"
               ></el-input>
             </el-form-item>
             <el-form-item>
@@ -99,6 +100,11 @@ export default {
 .base-div {
   text-align: center;
   color: black !important;
+}
+.base-chat {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
 }
 .chat-card {
   width: 35vw;

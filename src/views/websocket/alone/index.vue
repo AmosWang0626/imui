@@ -4,26 +4,28 @@
       <el-form-item label="我">
         <el-input class="setting-input" v-model="form.sender" size="mini"></el-input>
       </el-form-item>
-      <el-form-item label="切换">
-        <el-switch v-model="changeFlag" @change="change"></el-switch>
-      </el-form-item>
       <el-form-item label="对方">
         <el-input class="setting-input" v-model="form.receiver" size="mini"></el-input>
       </el-form-item>
-      <el-button @click="connect()" type="primary" size="small">连接</el-button>
+      <el-form-item label="切换">
+        <el-switch v-model="changeFlag" @change="change"></el-switch>
+      </el-form-item>
+       <el-form-item>
+        <el-button @click="connect()" type="primary" size="small" icon="el-icon-link" :autofocus="true">连接</el-button>
+      </el-form-item>      
     </el-form>
 
-    <el-row>
+    <el-row class="base-chat">
       <el-card class="chat-card">
         <!-- header -->
-        <div class="header" slot="header">{{ form.receiver }}</div>
+        <div class="header" slot="header">和 {{ form.receiver }} 的聊天</div>
         <!-- record -->
         <div class="chat-record">
           <el-scrollbar ref="scrollbar">
             <div v-for="item in record" :key="item.id">
               <div class="chat-time">{{ item.time }}</div>
               <div
-                :class="item.senderId === form.sender ? 'c-sender' : 'c-receiver'"
+                :class="item.sender === form.sender ? 'c-sender' : 'c-receiver'"
               >{{ item.sender }}: {{ item.message }}</div>
             </div>
           </el-scrollbar>
@@ -38,6 +40,7 @@
                 autosize
                 placeholder="请输入内容"
                 v-model="form.message"
+                @keyup.enter.native="onSubmit('baseRef')"
               ></el-input>
             </el-form-item>
             <el-form-item>
@@ -84,9 +87,7 @@ export default {
           this.$message.warning('请先连接哟')
           return
         }
-        let tempForm = { ...this.form }
-        tempForm.sender = '我'
-        _this.record.unshift(tempForm)
+        _this.record.unshift({...this.form})
         this.stompClient.send('/app/chat/alone', JSON.stringify(this.form), {})
         this.form.message = ''
       })
@@ -102,7 +103,6 @@ export default {
       this.stompClient.connect(
         {},
         frame => {
-          console.info('>>>>>>', '/client/push/alone/' + this.form.sender)
           // 服务端主动返回消息
           this.stompClient.subscribe(
             '/client/push/alone/' + this.form.sender,
@@ -134,6 +134,11 @@ export default {
 .base-div {
   text-align: center;
   color: black !important;
+}
+.base-chat {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
 }
 .chat-card {
   width: 35vw;

@@ -1,10 +1,9 @@
 <template>
-  <div>
-    <el-row :gutter="20">
-      <el-col :span="12">
-        <el-card class="login-card">
+  <div class="base-div">
+      <div class="child-div">
+        <el-card class="w35vw">
           <div slot="header" class="title">
-            <span>登录</span>
+            <img style="height: 50px; margin-top: 20px" src="@/assets/logo.png"/>
           </div>
           <el-form :model="baseForm" :rules="rules" ref="baseForm" label-width="80px">
             <el-form-item label="用户名" prop="username">
@@ -19,24 +18,25 @@
             </el-form-item>
           </el-form>
         </el-card>
-      </el-col>
-      <el-col :span="12">
-        <el-table :data="tableData" style="width: 100%">
-          <el-table-column type="expand">
-            <template slot-scope="props">
-              <el-form label-position="left" inline class="online-table-expand">
-                <el-form-item label="状态">
-                  <span>{{ props.row.status }}</span>
-                </el-form-item>
-              </el-form>
-            </template>
-          </el-table-column>
-          <el-table-column label="TOKEN" prop="token"></el-table-column>
-          <el-table-column label="用户名" prop="username"></el-table-column>
-          <el-table-column label="登录时间" prop="createTime" width="160"></el-table-column>
-        </el-table>
-      </el-col>
-    </el-row>
+      </div>
+      <div class="child-div">
+        <div class="w35vw">
+          <el-table :data="tableData">
+            <el-table-column type="expand">
+              <template slot-scope="props">
+                <el-form label-position="left" inline class="online-table-expand">
+                  <el-form-item label="状态">
+                    <span>{{ props.row.status }}</span>
+                  </el-form-item>
+                </el-form>
+              </template>
+            </el-table-column>
+            <el-table-column label="TOKEN" prop="token"></el-table-column>
+            <el-table-column label="用户名" prop="username"></el-table-column>
+            <el-table-column label="登录时间" prop="createTime" width="160"></el-table-column>
+          </el-table>
+        </div>
+      </div>
   </div>
 </template>
  
@@ -88,7 +88,15 @@ export default {
 }
 </script>
 <style scoped>
-.login-card {
+.base-div {
+  width: 100%;
+}
+.child-div {
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+}
+.w35vw {
   width: 35vw;
 }
 .title {

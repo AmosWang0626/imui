@@ -97,7 +97,9 @@ const config = {
     new HtmlWebpackPlugin({
       template: require('html-webpack-template'),
       inject: false,
-      appMountId: 'app'
+      appMountId: 'app',
+      title: 'im-ui',
+      favicon: 'src/assets/favicon.ico'
     }),
     new BundleAnalyzerPlugin({
       defaultSizes: 'parsed',

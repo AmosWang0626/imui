@@ -24,6 +24,12 @@
           <span>单聊</span>
         </template>
       </el-menu-item>
+      <el-menu-item index="/wsalone">
+        <template slot="title">
+          <i class="el-icon-chat-round"></i>
+          <span>WS单聊</span>
+        </template>
+      </el-menu-item>
       <el-menu-item index="/group">
         <template slot="title">
           <i class="el-icon-chat-dot-round"></i>

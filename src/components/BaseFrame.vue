@@ -13,7 +13,7 @@
         </el-main>
       </el-container>
       <el-footer>
-        <el-link href="http://www.miitbeian.gov.cn" target="_blank" type="primary">豫ICP备18017205号-2</el-link>
+        <el-link href="http://beian.miit.gov.cn/" target="_blank" type="primary" :underline="false">豫ICP备18017205号-3</el-link>
       </el-footer>
     </el-container>
   </el-container>
