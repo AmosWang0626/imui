@@ -3,7 +3,9 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const {
+  CleanWebpackPlugin
+} = require('clean-webpack-plugin')
 
 const utils = require('./utils')
 
@@ -18,10 +20,13 @@ const config = {
     path: path.resolve(__dirname, '../dist'),
     filename: '[name].[contenthash].js'
   },
+  externals: {
+    'vue': 'Vue',
+    'element-ui': 'ElementUI',
+  },
   stats: 'minimal',
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.vue$/,
         loader: 'vue-loader'
       },
@@ -95,9 +100,10 @@ const config = {
   plugins: [
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
-      template: require('html-webpack-template'),
-      inject: false,
-      appMountId: 'app'
+      template: 'src/index.html',
+      inject: true,
+      appMountId: 'app',
+      favicon: 'src/assets/favicon.ico'
     }),
     new BundleAnalyzerPlugin({
       defaultSizes: 'parsed',

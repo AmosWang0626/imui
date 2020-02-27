@@ -7,20 +7,26 @@
       <el-form-item label="对方">
         <el-input class="setting-input" v-model="form.receiver" size="mini"></el-input>
       </el-form-item>
+      <el-form-item label="切换">
+        <el-switch v-model="changeFlag" @change="change"></el-switch>
+      </el-form-item>
+       <el-form-item>
+        <el-button @click="connect()" type="primary" size="small" icon="el-icon-link" :autofocus="true">连接</el-button>
+      </el-form-item>      
     </el-form>
 
     <el-row class="base-chat">
       <el-card class="chat-card">
         <!-- header -->
-        <div class="header" slot="header">{{ form.receiver }}</div>
+        <div class="header" slot="header">和 {{ form.receiver }} 的聊天</div>
         <!-- record -->
         <div class="chat-record">
           <el-scrollbar ref="scrollbar">
             <div v-for="item in record" :key="item.id">
               <div class="chat-time">{{ item.time }}</div>
               <div
-                :class="item.senderId === form.sender ? 'c-sender' : 'c-receiver'"
-              >{{ item.senderId }}: {{ item.message }}</div>
+                :class="item.sender === form.sender ? 'c-sender' : 'c-receiver'"
+              >{{ item.sender }}: {{ item.message }}</div>
             </div>
           </el-scrollbar>
         </div>
@@ -48,16 +54,19 @@
 </template>
 
 <script>
-import { chatAlone, chatRecord } from '@/api/client'
+import SockJS from 'sockjs-client'
+import Stomp from 'webstomp-client'
 
 export default {
   data() {
     return {
       form: {
-        sender: 'c0',
-        receiver: 'c1',
+        sender: 'amos',
+        receiver: 'grace',
         message: ''
       },
+      changeFlag: 0,
+      stompClient: null,
       rules: {
         message: [
           { required: true, message: '请输入消息内容', trigger: 'blur' }
@@ -66,9 +75,7 @@ export default {
       record: []
     }
   },
-  created() {
-    this.chatRecord()
-  },
+  created() {},
   methods: {
     onSubmit(baseRef) {
       const _this = this
@@ -76,22 +83,49 @@ export default {
         if (!valid) {
           return false
         }
-        chatAlone(this.form).then(res => {
-          if (!res.data.success) {
-            this.$message.error(res.data.msg)
-            return
-          }
-          this.record.push(res.data.body)
-        })
+        if (!this.stompClient || !this.stompClient.connected) {
+          this.$message.warning('请先连接哟')
+          return
+        }
+        _this.record.unshift({...this.form})
+        this.stompClient.send('/app/chat/alone', JSON.stringify(this.form), {})
+        this.form.message = ''
       })
     },
-    chatRecord() {
-      if (this.form.sender && this.form.receiver) {
-        let data = { sender: this.form.sender, receiver: this.form.receiver }
-        chatRecord(data).then(res => {
-          this.record = res.data.body
-        })
+    connect() {
+      if (this.stompClient && this.stompClient.connected) {
+        this.$message('您已经连接成功了哟')
+        return
       }
+      const _this = this
+      this.socket = new SockJS('http://localhost:8080/im-ws')
+      this.stompClient = Stomp.over(this.socket)
+      this.stompClient.connect(
+        {},
+        frame => {
+          // 服务端主动返回消息
+          this.stompClient.subscribe(
+            '/client/push/alone/' + this.form.sender,
+            tick => {
+              _this.record.unshift(JSON.parse(tick.body))
+            }
+          )
+          this.$message.success('连接成功!')
+        },
+        error => {
+          console.error('error', error)
+        }
+      )
+    },
+    disconnect() {
+      if (this.stompClient) {
+        this.stompClient.disconnect()
+      }
+    },
+    change() {
+      var temp = this.form.sender
+      this.form.sender = this.form.receiver
+      this.form.receiver = temp
     }
   }
 }
