@@ -1,6 +1,6 @@
 <template>
   <el-menu
-    default-active="/server"
+    :default-active="$route.path"
     class="el-menu-vertical"
     background-color="#545c64"
     text-color="#fff"
