@@ -75,13 +75,28 @@ export default {
         if (!valid) {
           return false
         }
-        this.baseForm.command = MessageType.LOGIN_REQUEST
-        this.websocket.send(JSON.stringify(this.baseForm))
-        const _this = this
-        this.websocket.onmessage = function(e) {
-          console.info(e.data)
-          _this.$message.success(e.data)
-        }
+        userLogin(this.baseForm).then(res => {
+          if (!res.status === 200) {
+            this.$messgae.error('服务器异常')
+            return
+          }
+
+          this.baseForm.command = MessageType.LOGIN_REQUEST
+          this.baseForm.sender = localStorage.getItem('token')
+          this.websocket.send(JSON.stringify(this.baseForm))
+
+          const _this = this
+          this.websocket.onmessage = function(e) {
+            const response = JSON.parse(e.data)
+            if (response.command !== 2) {
+              return
+            }
+
+            localStorage.setItem('token', response.token)
+            localStorage.setItem('username', response.username)
+            _this.$message.success('Hello ' + response.username + ' !')
+          }
+        })
       })
     },
     resetForm(formName) {

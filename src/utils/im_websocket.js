@@ -37,4 +37,6 @@ export function getWebsocket() {
  */
 export function clearWebsocket() {
   ws = null
+  localStorage.clear()
+  console.info('>>>>> 清空 WebSocket')
 }
