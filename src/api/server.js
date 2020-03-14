@@ -9,9 +9,9 @@ export function getServerLogs() {
   })
 }
 
-export function startServer() {
+export function getServerWS() {
   return request({
     method: 'get',
-    url: '/server/start'
+    url: '/server/ws'
   })
 }

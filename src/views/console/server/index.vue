@@ -3,12 +3,12 @@
     <el-card class="box-card">
       <div slot="header" class="clearfix">
         <span>服务端启动日志</span>
-        <el-button
+        <!-- <el-button
           style="float: right; padding: 5px;"
           @click="startServer"
           type="primary"
           plain
-        >启动服务端</el-button>
+        >启动服务端</el-button> -->
       </div>
       <div class="server-log">
         <el-scrollbar>
@@ -32,15 +32,15 @@ export default {
   },
   created() {
     this.connect()
-    this.getServerLogs()
+    this.getServerLogs()    
   },
   methods: {
-    startServer() {
-      this.send()
-      startServer().then(res => {
-        this.$message.info(res.data)
-      })
-    },
+    // startServer() {
+    //   this.send()
+    //   startServer().then(res => {
+    //     this.$message.info(res.data)
+    //   })
+    // },
     getServerLogs() {
       getServerLogs().then(res => {
         res.data.forEach(element => {
