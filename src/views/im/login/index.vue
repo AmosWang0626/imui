@@ -44,7 +44,7 @@
 import { getServerWS } from '@/api/server'
 import { userLogin, onlineUsers } from '@/api/client'
 import { MessageType } from '@/utils/im_constant'
-import { ImServerWS, getWebsocket } from '@/utils/im_websocket'
+import { getWebsocket } from '@/utils/im_websocket'
 
 export default {
   data() {
@@ -66,7 +66,9 @@ export default {
     }
   },
   created() {
-    this.initServerWS()
+    getWebsocket().then(res => {
+      this.websocket = res
+    })
     this.onlineUsers()
   },
   methods: {
@@ -86,7 +88,9 @@ export default {
           this.websocket.send(JSON.stringify(this.baseForm))
 
           const _this = this
-          this.websocket.onmessage = function(e) {
+          // 方式1 [websocket.onmessage] 指定收到服务器数据后的回调函数 [this.websocket 唯一]
+          // 方式2 [websocket.addEventListener] 如果要指定多个回调函数，可以使用 addEventListener 方法
+          this.websocket.addEventListener('message', function(e) {
             const response = JSON.parse(e.data)
             if (response.command !== 2) {
               return
@@ -94,8 +98,27 @@ export default {
 
             localStorage.setItem('token', response.token)
             localStorage.setItem('username', response.username)
+
+            // 欢迎语
             _this.$message.success('Hello ' + response.username + ' !')
-          }
+            // 跳转单聊页面
+            _this.$router.push('alone')
+          })
+          // this.websocket.onmessage = function(e) {
+          //   const response = JSON.parse(e.data)
+          //   if (response.command !== 2) {
+          //     console.info('>>>>>>>>>>>>', e.data)
+          //     return
+          //   }
+
+          //   localStorage.setItem('token', response.token)
+          //   localStorage.setItem('username', response.username)
+
+          //   // 欢迎语
+          //   _this.$message.success('Hello ' + response.username + ' !')
+          //   // 跳转单聊页面
+          //   _this.$router.push('alone')
+          // }
         })
       })
     },
@@ -106,15 +129,6 @@ export default {
       onlineUsers().then(res => {
         this.tableData = res.data
       })
-    },
-    initServerWS() {
-      getServerWS().then(res => {
-        if (res.status == 200) {
-          localStorage.setItem(ImServerWS, res.data)
-        }
-      })
-
-      this.websocket = getWebsocket()
     }
   }
 }

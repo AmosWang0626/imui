@@ -9,7 +9,7 @@ export function getServerLogs() {
   })
 }
 
-export function getServerWS() {
+export function getServerWsUrl() {
   return request({
     method: 'get',
     url: '/server/ws'

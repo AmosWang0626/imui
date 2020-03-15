@@ -49,12 +49,15 @@
 
 <script>
 import { chatAlone, chatRecord } from '@/api/client'
+import { MessageType } from '@/utils/im_constant'
+import { getWebsocket } from '@/utils/im_websocket'
 
 export default {
   data() {
     return {
+      websocket: null,
       form: {
-        sender: 'c0',
+        sender: localStorage.token,
         receiver: 'c1',
         message: ''
       },
@@ -67,21 +70,33 @@ export default {
     }
   },
   created() {
-    this.chatRecord()
+    getWebsocket().then(res => {
+      this.websocket = res
+    })
+    // this.chatRecord()
   },
   methods: {
     onSubmit(baseRef) {
-      const _this = this
       this.$refs[baseRef].validate(valid => {
         if (!valid) {
           return false
         }
-        chatAlone(this.form).then(res => {
-          if (!res.data.success) {
-            this.$message.error(res.data.msg)
+        if (!localStorage.token) {
+          this.$message.info('请先登录')
+          this.$router.push('login')
+          return
+        }
+        this.form.command = MessageType.MESSAGE_REQUEST
+        this.websocket.send(JSON.stringify(this.form))
+
+        const _this = this
+        this.websocket.addEventListener('message', function(e) {
+          const response = JSON.parse(e.data)
+          if (response.command !== 4) {
             return
           }
-          this.record.push(res.data.body)
+
+          _this.$message.success(response.username + ' : ' + response.message)
         })
       })
     },
