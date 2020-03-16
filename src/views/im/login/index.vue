@@ -90,7 +90,7 @@ export default {
           const _this = this
           // 方式1 [websocket.onmessage] 指定收到服务器数据后的回调函数 [this.websocket 唯一]
           // 方式2 [websocket.addEventListener] 如果要指定多个回调函数，可以使用 addEventListener 方法
-          this.websocket.addEventListener('message', function(e) {
+          this.websocket.onmessage = function(e) {
             const response = JSON.parse(e.data)
             if (response.command !== 2) {
               return
@@ -103,22 +103,7 @@ export default {
             _this.$message.success('Hello ' + response.username + ' !')
             // 跳转单聊页面
             _this.$router.push('alone')
-          })
-          // this.websocket.onmessage = function(e) {
-          //   const response = JSON.parse(e.data)
-          //   if (response.command !== 2) {
-          //     console.info('>>>>>>>>>>>>', e.data)
-          //     return
-          //   }
-
-          //   localStorage.setItem('token', response.token)
-          //   localStorage.setItem('username', response.username)
-
-          //   // 欢迎语
-          //   _this.$message.success('Hello ' + response.username + ' !')
-          //   // 跳转单聊页面
-          //   _this.$router.push('alone')
-          // }
+          }
         })
       })
     },

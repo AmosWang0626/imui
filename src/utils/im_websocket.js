@@ -1,16 +1,14 @@
 export const ImServerWS = "server_ws"
 import { getServerWsUrl } from '@/api/server'
 
-// 共享Websocket
-let ws
-
 /**
  * 获取 Websocket 连接
  * @param {*} imServer im server 地址
  */
 export function getWebsocket() {
-  if (ws) {
-    return Promise.resolve(ws)
+  const baseUrl = localStorage.getItem(ImServerWS)
+  if (localStorage.getItem(ImServerWS)) {
+    return Promise.resolve(getBaseWebsocket(baseUrl))
   }
 
   return getServerWsUrl().then(res => {
@@ -19,28 +17,24 @@ export function getWebsocket() {
       return
     }
     if (res.data) {
-      let address = 'ws://' + res.data + '/ws'
-      ws = new WebSocket(address)
-      console.info('>>>>> Netty Server 地址为: ' + address)
-    }
-    ws.onopen = function () {
-      console.info('WebSocket 连接成功')
+      localStorage.setItem(ImServerWS, res.data)
+      return getBaseWebsocket(res.data)
     }
 
-    ws.onclose = function () {
-      console.info('WebSocket 连接已关闭')
-      clearWebsocket()
-    }
-
-    return ws
+    return null
   })
 }
 
-/**
- * 清空 WebSocket
- */
-export function clearWebsocket() {
-  ws = null
-  localStorage.clear()
-  console.info('>>>>> 清空 WebSocket')
+function getBaseWebsocket(baseUrl) {
+  let address = 'ws://' + baseUrl + '/ws'
+  let ws = new WebSocket(address)
+  ws.onopen = function () {
+    console.info('WebSocket 连接成功')
+  }
+
+  ws.onclose = function () {
+    console.info('WebSocket 连接已关闭')
+  }
+
+  return ws
 }

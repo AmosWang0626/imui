@@ -90,14 +90,14 @@ export default {
         this.websocket.send(JSON.stringify(this.form))
 
         const _this = this
-        this.websocket.addEventListener('message', function(e) {
+        this.websocket.onmessage = function(e) {
           const response = JSON.parse(e.data)
           if (response.command !== 4) {
             return
           }
 
           _this.$message.success(response.username + ' : ' + response.message)
-        })
+        }
       })
     },
     chatRecord() {
