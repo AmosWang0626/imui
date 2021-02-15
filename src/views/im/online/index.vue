@@ -12,7 +12,7 @@
 </template>
  
 <script>
-import { userLogin, onlineUsers } from '@/api/client'
+import { onlineUsers } from '@/api/client'
 
 export default {
   data() {

@@ -19,30 +19,12 @@
         </el-form>
       </el-card>
     </div>
-    <div class="child-div">
-      <div class="w35vw">
-        <el-table :data="tableData">
-          <el-table-column type="expand">
-            <template slot-scope="props">
-              <el-form label-position="left" inline class="online-table-expand">
-                <el-form-item label="状态">
-                  <span>{{ props.row.status }}</span>
-                </el-form-item>
-              </el-form>
-            </template>
-          </el-table-column>
-          <el-table-column label="TOKEN" prop="token"></el-table-column>
-          <el-table-column label="用户名" prop="username"></el-table-column>
-          <el-table-column label="登录时间" prop="createTime" width="160"></el-table-column>
-        </el-table>
-      </div>
-    </div>
   </div>
 </template>
  
 <script>
-import { getServerWS } from '@/api/server'
-import { userLogin, onlineUsers } from '@/api/client'
+// import { getServerWS } from '@/api/server'
+import { userLogin } from '@/api/client'
 import { MessageType } from '@/utils/im_constant'
 import { getWebsocket } from '@/utils/im_websocket'
 
@@ -69,7 +51,6 @@ export default {
     getWebsocket().then(res => {
       this.websocket = res
     })
-    this.onlineUsers()
   },
   methods: {
     submitForm(formName) {
@@ -109,11 +90,6 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields()
-    },
-    onlineUsers() {
-      onlineUsers().then(res => {
-        this.tableData = res.data
-      })
     }
   }
 }

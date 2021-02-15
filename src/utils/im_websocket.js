@@ -7,7 +7,7 @@ import { getServerWsUrl } from '@/api/server'
  */
 export function getWebsocket() {
   const baseUrl = localStorage.getItem(ImServerWS)
-  if (localStorage.getItem(ImServerWS)) {
+  if (baseUrl) {
     return Promise.resolve(getBaseWebsocket(baseUrl))
   }
 
@@ -26,7 +26,7 @@ export function getWebsocket() {
 }
 
 function getBaseWebsocket(baseUrl) {
-  let address = 'ws://' + baseUrl + '/ws'
+  let address = baseUrl
   let ws = new WebSocket(address)
   ws.onopen = function () {
     console.info('WebSocket 连接成功')

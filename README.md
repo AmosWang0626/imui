@@ -3,7 +3,7 @@
 ## Command
 
 ```sh
-npm install
+npm install --registry=https://registry.npm.taobao.org
 npm run dev
 npm run build
 ```
